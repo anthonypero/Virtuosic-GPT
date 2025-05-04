@@ -89,70 +89,67 @@ Each of these components supports one or more core system functions.
 - Context integrator — auto-loads relevant Bible/Portrait elements
 - Drafting assistant — preserves voice,
 
+
 ## 📁 File & Folder Structure
 
-This section documents where each type of file lives across the three core locations used by the ImperionWorld project:
+This project follows a Node-style layout, with a clear separation between editable source files (`src/`) and final bundled output (`dist/`). Only the contents of `dist/` are uploaded to the GPT Project.
 
-- `📁 GPT Project` — Loaded directly into ChatGPT via project file uploads  
-- `🌐 Public GitHub Repo` — Contains general-purpose rules and non-spoiler docs  
-- `🔒 Private GitHub Repo` — Contains proprietary story content, structured data, and working files  
-
----
-
-### 🔒 Private GitHub Repo — `ImperionWorld/`
-
-This is the main working repository for all structured content, entries, portraits, summaries, and merge scripts.
 
 ```
 ImperionWorld/
 │
-├── loader.yaml                       # Tells GPT where to look for public context (e.g. PROJECT_OVERVIEW.md)
-├── rulesManifest.md                  # Index of all rule files and their purposes for GPT to load as needed
+├── PROJECT_OVERVIEW.md                  # Canonical design doc (source copy for editing)
 │
-├── RulesManifest/                    # All project-wide rule files (Markdown or YAML)
-│   ├── 01-howToMakeRules.md          # Guidelines for writing and formatting rule files
-│   ├── 02-storySummaries.md          # Rules for summarizing scenes, POV structure, and continuity notes
-│   ├── 03-worldBibleEntries.md       # Formatting, linking, and versioning rules for Bible entries
-│   ├── 04-structuringStories.md      # Seven Point / Story Grid outlining conventions
-│   ├── 05-writingStories.md          # Converting scene plans into prose with correct tone and continuity
-│   ├── 06-editingStories.md          # How GPT helps edit and revise prose using rules
-│   ├── 07-creatingAssets.md                     # Rules for generating maps, icons, diagrams, etc.
-│   ├── 08-characterPortraits.md                 # Structure for personality portraits and linking to Bible
-│   └── 09-loaderRules.yaml                      # Optional YAML that defines dynamic loader logic
+├── src/                                 # 🔧 All editable source files
+│   ├── rules/                           # Markdown + YAML rule files
+│   │   ├── 01-howToMakeRules.md
+│   │   ├── 02-storySummaries.md
+│   │   ├── 03-worldBibleEntries.md
+│   │   ├── 04-structuringStories.md
+│   │   ├── 05-writingStories.md
+│   │   ├── 06-editingStories.md
+│   │   ├── 07-creatingAssets.md
+│   │   ├── 08-characterPortraits.md
+│   │   └── 09-loaderRules.yaml
+│   │
+│   ├── bible/                           # Individual World Bible entry files
+│   │   └── char-Gaius.xml
+│   │
+│   ├── summaries/                       # Scene and story summaries
+│   │   └── The Admiral's Vengeance/
+│   │       ├── TheAdmiralsVengeance.xml
+│   │       └── Chapters/
+│   │           └── TheAdmiralsVengeance-Ch00.xml
+│   │
+│   ├── portraits/                       # Individual character portrait files
+│   │   └── Aurelia-Cyclorios.md
+│   │
+│   ├── schema/                          # YAML schemas for file validation
+│   │   ├── worldBible.schema.yaml
+│   │   ├── sceneSummary.schema.yaml
+│   │   └── characterPortrait.schema.yaml
+│   │
+│   └── assets/                          # Non-generated project content
+│       ├── Manuscripts/
+│       │   └── The Admiral's Vengeance-v1.5.docx
+│       ├── Maps/
+│       └── Ephemera/
 │
-├── WorldBible/                                  # Canonical World Bible data system
-│   ├── ImperionBible.xml                        # Full merged World Bible (one entry per element)
-│   └── entries/                                 # Individual entry files (XML format)
-│       └── char-Gaius.xml                       # Example: a single character entry for Gaius
+├── dist/                                # 🚀 Upload this entire folder to GPT
+│   ├── PROJECT_OVERVIEW.md              # Copied from root during build
+│   ├── rulesBundle.md                   # From scripts/mergeRules.js
+│   ├── ImperionBible.xml                # From scripts/mergeBible.js
+│   ├── ImperionSummaries.xml           # From scripts/mergeSummaries.js
+│   ├── portraitCache.md                # From scripts/mergePortraits.js
+│   └── WorkingDraft.docx                # (Optional) most recent manuscript
 │
-├── Story Summaries/                             # Parsed scene summaries and story metadata
-│   ├── ImperionSummaries.xml                    # Merged master file for all summarized scenes
-│   └── Stories/                                 # Folder for individual stories
-│       └── The Admiral's Vengeance/
-│           ├── TheAdmiralsVengeance.xml         # Metadata for this story (title, filePrefix, etc.)
-│           └── Chapters/
-│               └── TheAdmiralsVengeance-Ch00.xml # Individual chapter summaries
-│
-├── CharacterPortraits/                          # Portrait system for psychologically rich characters
-│   ├── portraitCache.md                         # Single GPT-readable cache file (used during sessions)
-│   └── portraits/                               # One markdown file per character (not loaded all at once)
-│       └── Aurelia-Cyclorios.md                 # Full portrait: background, MBTI/Enneagram, key arcs
-│
-├── schema/                                      # Schemas to validate structure of XML/YAML files
-│   ├── worldBible.schema.yaml                   # Declares fields and types used in World Bible entries
-│   ├── sceneSummary.schema.yaml                 # Declares structure for scene summaries
-│   └── characterPortrait.schema.yaml            # Field-level design for character portraits
-│
-├── scripts/                                     # Node.js (or other) utilities to automate file merging
-│   ├── mergeBible.js                            # Merges all Bible entry files into ImperionBible.xml
-│   ├── mergeSummaries.js                        # Merges all chapter summaries into ImperionSummaries.xml
-│   └── mergePortraits.js                        # Merges all portrait files into portraitCache.md
-│
-└── Assets/                                      # Original source material and non-generated assets
-    ├── Manuscripts/                             # Drafts of full stories (as DOCX or TXT)
-    │   └── The Admiral's Vengeance-v1.5.docx
-    ├── Maps/                                    # World maps, planetary charts, regional layouts
-    └── Ephemera/                                # Lore fragments, handouts, inspiration docs
+├── scripts/                             # Node build scripts for content assembly
+│   ├── buildAll.js                      # One-command builder for dist/
+│   ├── mergeRules.js
+│   ├── mergeBible.js
+│   ├── mergeSummaries.js
+│   ├── mergePortraits.js
+│   └── (Optional) syncDraft.js
 ```
 
 ## 🧭 ImperionWorld Project Design Workflow (Temporary Section)
