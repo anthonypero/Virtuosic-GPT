@@ -95,6 +95,7 @@ This section documents where each type of file lives across the three core locat
 
 This is the main working repository for all structured content, entries, portraits, summaries, and merge scripts.
 
+```
 ImperionWorld/
 │
 ├── loader.yaml                       # Tells GPT where to look for public context (e.g. PROJECT_OVERVIEW.md)
@@ -144,7 +145,7 @@ ImperionWorld/
     │   └── The Admiral's Vengeance-v1.5.docx
     ├── Maps/                                    # World maps, planetary charts, regional layouts
     └── Ephemera/                                # Lore fragments, handouts, inspiration docs
-
+```
 
 ## 🧭 ImperionWorld Project Design Workflow (Temporary Section)
 
