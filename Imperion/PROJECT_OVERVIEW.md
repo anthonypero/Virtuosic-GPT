@@ -64,6 +64,50 @@ Start feeding content into the system once each domain is stable.
 - Update rule files only when workflows change  
 - Use GitHub commits and versioning to control schema drift
 
+## 🏗 What We Have to Build (Component Map)
+
+Each of these components supports one or more core system functions.
+
+---
+
+### 1. World Bible System
+- `ImperionBible.xml` — primary data store for entries
+- `03-worldBibleEntries.md` — rules for formatting and relationships
+- XML schema (in `/schema/`) — defines valid structure
+- Entry generator — turns raw data into XML blocks
+- Entry loader/parser — used to look up or cross-reference entries
+
+---
+
+### 2. Scene Summary System
+- `ImperionSummaries.xml` — structured summaries by scene
+- `02-storySummaries.md` — rules for defining, expanding, and tagging scenes
+- Schema for summaries — with scenePov, sceneSummary, continuityNotes, wordCount, etc.
+- Scene parser — identifies characters/events and formats output
+
+---
+
+### 3. Character Portrait System
+- `portraitCache.md` — stores full Portraits for key characters
+- `08-characterPortraits.md` — rules for MBTI, Enneagram, layout, and linking
+- Linkage layer — adds portrait references to Bible entries
+- Portrait view renderer — simplified display for writing context
+
+---
+
+### 4. Outline and Structure System
+- `04-structuringStories.md` — rules for Seven Point and Story Grid outlines
+- Scene expander — turns outline points into scene lists
+- Structure tracker — ensures arcs and values evolve across beats
+
+---
+
+### 5. Drafting Support Tools
+- `05-writingStories.md` — rules for turning scene plans into prose
+- Context integrator — auto-loads relevant Bible/Portrait elements
+- Drafting assistant — preserves voice,
+
+
 
 *Generated on 2025-05-04*
 
