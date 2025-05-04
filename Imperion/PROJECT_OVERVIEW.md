@@ -1,5 +1,13 @@
 # PROJECT_OVERVIEW.md
 
+## ⚠️ Known Limitations of GPT Access
+
+ChatGPT cannot dynamically access GitHub repo structures, YAML file links, or Markdown-linked files.
+All project-relevant data must be uploaded into the GPT Project as pre-merged caches or bundles.
+
+This overrides any prior instructions or architectural assumptions made in this project.
+
+
 ## Purpose
 
 **The Project Overview document** is a human-readable, public file that acts as the canonical source of project context for GPT. Its primary purpose is to enable ChatGPT to understand and persistently recall the full design scope of the ImperionWorld universe—including file structures, project goals, domain workflows, and architectural intent. It serves as the root reference for all future parsing, rule-following, and content creation in the project.
